@@ -22,8 +22,8 @@ data = {
     '__VIEWSTATE': 'n3LWrTW4daS6X5Zv0ZqQG47XvmjkSawJJv3TIk958Hhbkgef4UxpQ8vQPr4iyNqW27XcMH7GurwXL43RHlaOjlPmNsO37AHgYoQHAaYgwMPVyOcvQ6pulhlqMR4=',
     '__VIEWSTATEGENERATOR': 'C93BE1AE',
     'from': 'http://so.gushiwen.org/user/collect.aspx',
-    'email': '1539478260@qq.com',   #登录账户
-    'pwd': 'fq520fq.',  #登录密码
+    'email': 'xxxxxx@qq.com',   #登录账户
+    'pwd': 'xxxxxx',  #登录密码
     'code': 'np2z', #验证码。动态变化的，需另外设置一个识别验证码的程序
     'denglu':'登录',
 }
