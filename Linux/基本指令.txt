@@ -1,0 +1,313 @@
+基本指令
+编辑器
+vi\vim
+vi 文件名
+
+三种模式
+	正常模式(默认)
+		光标的移动
+		^  光标移动到所在行行首
+		$  光标移动到所在行行尾
+		gg 光标移动到首行行首
+		G   光标移动到最后一行行首
+		M  光标移动到显示中间行
+		L  光标移动到显示最后一行
+		h  左移
+		j  下移
+		k  上移
+		l  右移
+		w  后移一个单词
+		b  前移一个单词
+		{  上移一个段落
+		}  下移一个段落
+
+		复制粘贴
+		yy  复制光标所在行
+		p    粘贴
+		nyy  复制n行
+		y$   复制光标所在位置到行尾
+		y^  复制光标所在位置到行尾 
+		yw	复制一个单词(光标词首)
+		nyl	复制n个字符
+
+		删除
+		dd 删除光标所在行
+		ndd 删除n行
+		d^  删除光标所在位置到行首
+		d$  删除光标所在位置到行末
+		x   删除单个字符(先删后面再删前面)
+
+		撤销 u
+		反撤销 ctrl+r
+
+		退出
+		ZZ  保存退出
+		ZQ  不保存退出
+
+
+		插入模式（i）
+		i  光标前一个字符
+		I  光标所在行行首
+		a  光标后一个字符
+		A  光标所在行行尾
+		o  下一行
+		O   上一行
+		s   删除所在字符并插入
+		S   删除所在行并插入
+		r   修改所在一个字符
+		R   修改所在行所有字符
+
+
+		末行模式(:)
+		：set nu  显示行号
+		：set nu!  取消行号显示
+		：wq!  保存退出强制执行
+		:x    等同于 ：wq
+
+		替换内容
+		:%s/原内容/新内容/gc  替换所有行内容
+		:m,ns/原内容/新内容/gc 替换m到n行内容
+		g 表示所有  c 表示提示
+
+		删除复制剪切
+		：.,$ d  删除光标所在行到最后一行
+		：% d  或者 :1,$ d  删除所有内容
+		：行号,行号 d   
+		：行号,行号 t 行号  复制某行到某行的内容 到某行
+		：行号,行号 m 行号  移到某行到某行的内容 到某行
+
+		查找
+		/ 内容  向下查找
+		? 内容  向上查找
+		n/N 上下翻动
+
+
+用户的管理
+	管理员  uid 0
+	系统用户 uid 1-499
+	普通用户 uid 500~
+查看当前链接的用户
+	who 
+查看登录系统的用户
+	whoami
+查看用户信息
+	cat /etc/passwd
+创建用户
+	useradd 用户名
+		-d  #指定家目录 路径要写绝对路径
+		-u  #设置uid
+		-g  #设置组id
+		-e  #设置到期时间 年-月-日
+		-c  #设置备注信息
+设置密码
+	passwd 用户名
+
+
+修改用户
+	usermod
+	修改用户名
+	usermod -l 新用户名 原用户名
+	
+	修改用户的家目录
+	usermod -d 路径位置 -m 用户名
+
+	修改用户的uid
+	usermod -u uid 用户名
+			-g gid 用户名  #修改用户组id
+	
+	修改到期时间
+	usermod 用户名 -e 年-月-日
+
+	修改备注信息
+	usermod 用户名 -c '信息'
+
+	删除用户
+	userdel 用户名
+	userdel -r 用户名  -r 删除用户相关的家目录
+
+	下线用户
+	pkill -kill -t 设备号
+
+用户组	
+	基本用户组 创建用户时会自动创建于其同名的基本用户在，只有该用户一个
+	扩展用户组 加入其它用户的组 。一个用户可以有多个扩展组
+
+	创建组
+	groupadd 组名
+
+	查看用户组的信息
+	cat /etc/group
+
+	查看用户所属组
+	groups 用户名
+
+	
+	gpasswd -a 用户名 用户组 #将用户加入某组
+	gpasswd -d 用户名 用户组 #将用户踢出某组
+
+	删除组
+	groupdel 组名
+
+	修改组id
+	groupmod -g id值 组名
+
+	验证用户是否存在
+	id 用户名
+
+用户文件管理
+	修改文件拥有者
+	chown 用户名 文件名
+	chown -R 用户名 文件名  #修改联级目录
+
+	修改文件拥有组
+	chgrp 组名 文件名  
+	chgrp -R 组名 文件名  #修改联级目录
+
+	合并修改
+	chown 用户名:用户组 文件名 
+
+权限
+	r 读 4  w 写 2 x 执行 1
+	d rwx r-x r-x
+	文件类型|宿主u|宿组g|其它o
+	chmod u[+ - =]权限 文件名 
+	chmod 数字  文件名  chmod 777
+	chmod -R 数字 目录  #联级目录授权所有
+	chmod +权限名 文件名
+
+切换用户
+	su - 用户名  
+	-的作用是将用户的环境一起切换
+
+	sudo 命令
+	配置文件
+	visudo
+	定位到如下内容	
+    ## Same thing without a password
+    # %wheel        ALL=(ALL)       NOPASSWD: ALL
+    增加用户名       ALL=(ALL)       NOPASSWD: ALL
+    注意删除前面的#号
+    保存退出
+
+   普通用户将获得root的权限 
+   sudo 操作命令
+
+压缩和解压（.rar包无法在Linux中解压）
+	zip包
+	zip -r 包名 文件名  #压缩
+	unzip -v 包名   #查看包内内容
+	zip -d 包名 文件名  #删除包内文件
+	zip -m 包名 文件名  #追加文件到包中
+	unzip 包名  #解压
+	unzip -o 包名  #自动覆盖
+	unzip -d 路径 包名   #解压到指定路径
+
+	tar包
+	tar cvf 包名 文件名  #压缩
+	tar xvf 包名   #解压
+	tar xvf 包名 -C 路径   #解压到指定路径(大写字母C)
+	tar -tf 包名    #查看包内内容
+	tar -rf 包名 文件名  #追加文件到包内
+	tar -delete -f 包名 文件名 #删除包内文件
+
+	.tar.gz包
+	gzip  需打包的包名  #压缩
+	gunzip  包名   #解压
+	tar -czvf 包名  需打包包名  #压缩
+	tar -xzvf 包名   #解压
+
+系统指令
+	安装卸载
+	离线
+	rpm -ivh 安装包  #安装
+	rpm -e 程序名   #卸载
+
+	在线
+	yum install 包名 -y #安装
+	yum update   #更新
+	yum remove 程序名 #卸载
+
+	防火墙
+	service iptables stop  关闭防火墙
+	service iptables start 启动防火墙
+	chkconfig iptables --list  查看防火墙开机启动状态
+	chkconfig iptables off  关闭
+	chkconfig iptables on   开启
+	参数 --levels 运行级别
+
+
+	系统运行级别（/etc/inittab） init 级别
+	0  关机
+	1  单用户模式
+	2  多用户模式无网络
+	3  多用户模式有网络
+	4  保留
+	5  图形界面
+	6  重启
+
+	查看内存
+	free -h -s 秒数
+
+	查看文件所在空间
+	du -sh
+
+	查看ip
+	ifconfig
+	ifconfig  eth0 地址  (重启失效)
+
+	查进程
+	ps -ef 
+    ps aux
+
+    杀进程
+    kill pid 
+    kill -9 pid 强杀
+    killall 进程名
+
+    查看程序的pid
+    pidof 程序名
+
+    查看某个端口是否被占用
+    netstat -anp |grep 端口号
+
+    grep查找文件内容
+    -v  显示不包含匹配内容的所有行
+    -n   显示匹配内容行及行号
+    -i  忽略大小写
+    -r  对象为目录则遍历所有目录
+    -l  只列出匹配的文件名
+    -L  列出不匹配的文件名
+    -A  匹配关键词后几行
+    -B  匹配关键字前几行
+    -C  匹配关键字前后几行
+
+    帮助文档
+    man
+    info
+    命令 --help
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
